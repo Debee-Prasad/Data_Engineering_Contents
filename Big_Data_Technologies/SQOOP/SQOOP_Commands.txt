@@ -1,0 +1,3 @@
+how to get into mysql in cloudera:
+mysql -u root -p cloudera
+
