@@ -1,0 +1,11 @@
+edge node -> landing path -> /home/cloudera
+
+HDFS -> landing path -> /user/cloudera
+Hadoop commands:
+hadoop fs -ls /user/cloudera
+hadoop fs -mkdir(create directory)
+hadoop fs -rmdir(remove directory)
+hadoop fs -cat(show contents of a file)
+hadoop fs -touchc(create a file)
+hadoop fs -put {edgeNode_absolute_path} {hdfs_absolute_path}(move file  from edge node to hdfs)
+hadoop fs -get {hdfs_absolute_path} {edgeNode_absolute_path} (move file from hdfs to edge node)

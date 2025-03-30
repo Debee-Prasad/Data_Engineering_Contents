@@ -1,0 +1,33 @@
+windows                                    linux
+login -> dektop                            pwd -> present working directory 
+UI                                         ls -> list 
+detailed info -> ui                        ll -> long listing
+create new:                         
+right click -> new -> folder               mkdir {name_of_folder}-> make directory 
+open folder:
+double click (ui)                          cd -> change directory
+get out of a directory:
+back button (ui)                           cd .. or cd ../..
+create a file:
+right click -> new -> file 	           touch {name_of_file}
+go inside file:
+double click (ui)                          vi/vim {name_of_file}
+to write in file:
+just type			           press "I" 
+to go out of the file:
+hit the close button                       press the Esc key
+to save: 
+press clt+s                                Esc -> :wq (write and quit), Esc -> :wq!(over-write)
+just to come out of a file:
+hit close on ui                            Esc -> :q (quit)
+come out and save the changes;
+press clt+s and then hit the close on ui   Esc -> :q! (ignore the last edited and quit)
+to see the changes of a file:
+double click                               cat {name-of_file}
+to delete a directory
+right click -> delete                      rmdir {name_of_folder}
+to delete a file:
+right click -> delete                      rm {name_of_file}
+
+
+
