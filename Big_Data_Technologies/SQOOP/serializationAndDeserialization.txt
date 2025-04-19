@@ -1,0 +1,46 @@
+In Apache Spark, serialization converts objects into a byte stream for efficient data transfer and storage, 
+while deserialization reconstructs objects from that byte stream. Spark utilizes serialization for various tasks 
+like data movement between nodes, storing data in memory or on disk, and interacting with other systems. 
+
+Why is it important?
+Efficient Data Transfer:
+Serialized data occupies less space and allows for faster transmission across the network, improving Spark's performance. 
+
+Memory Management:
+Serialization helps Spark manage memory effectively by minimizing the space required to store data, especially when dealing with large datasets.
+
+Efficient accessibility:
+serialization facilitates fast retrieval and insertion of data 
+ 
+Caching and Storage:
+Serialized data can be efficiently cached or stored on disk, reducing storage requirements and improving data access. 
+
+Cross-Language and System Interoperability:
+Serialization ensures data can be converted into a format understood by other systems and languages. 
+
+UDFs:
+Serialization facilitates data transfer between Spark and user-defined functions (UDFs). 
+
+Fault Tolerance:
+Checkpointing, a mechanism for ensuring fault tolerance in Spark, relies on serialization for storing and retrieving RDDs.
+ 
+Spark's Default Serializer:
+Spark uses Kryo as its default serializer, which is designed for speed and efficiency. Kryo registers classes to optimize serialization, reducing overhead. 
+Other serialization libraries like Java's default serialization are also used, each with its advantages and disadvantages. 
+
+Example Scenario:
+When data is transferred between worker nodes in Spark, it's first serialized into a byte stream, then transmitted, 
+and finally deserialized at the recipient node for processing. This process is crucial for operations like shuffling, where data needs to be moved between partitions. 
+In summary, serialization and deserialization are fundamental to Spark's distributed processing model, 
+enabling efficient data transfer, storage, and interoperability with other systems and languages. 
+
+
+sqoop import --connect jdbc:mysql://localhost:3306/adewe71 --username root --password cloudera --query "select c.*, p.product_name from customers c inner join product_info p  on  c.id = p.customer_id where \$CONDITIONS" -m 1 --target-dir /user/cloudera/adewe7_dir6 --as-sequencefile
+file format in big data:
+1. sequence serialized file format
+2. Parquet file format
+	2.1 compression ratio - 60-80%
+	2.2 columnar file format(predicate pushdown)
+	2.3 
+3. AVRO file format 
+4. ORC file format (compression ratio - 80-90%)
