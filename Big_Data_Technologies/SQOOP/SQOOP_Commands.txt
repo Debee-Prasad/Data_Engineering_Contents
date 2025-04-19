@@ -1,3 +1,98 @@
+List of issues of Hadoop and SQL :
+1. Data Import into Hadoop cluster was slow:  first we have to bring the data in a file then move to edge node and then Hadoop cluster
+2. There was no native feature in Hadoop to fetch certain data into cluster , so for first execute a query to the RDMS, then export the data and again perform the above activities 
+3. Incremental data import was not possible 
+4. Import of Changed data was not possible.
+5. There was no convenient way to import serialised data 
+6. Certain portion data import not possible
+Benefits of SQOOP:
+1. Integration of RDBMS was now possible
+2. It supports multi-threading
+3. Import of certain data is now possible
+4. Incremental data import now possible
+5. Import of changed data is now possible
+6. Import of serialised data is also possible
+7. Import and export of data is now possible.
 how to get into mysql in cloudera:
-mysql -u root -p cloudera
+mysql -u root -pcloudera
+SQOOP import statement :
+for this we need 7 details:
+1. Hostname/Url/ip address 
+2. Port Number
+3. Database
+4. Username
+5. Password
+6. table with condition(if any)
+7. the target directory path
+
+sqoop import operation expects non-existing (or new directory)
+
+sqoop import --connect jdbc:mysql://<hostname>:<port_no>/<database> --username <username> --password <password> --table <table_name> -m 1 --target-dir <path_of_hdfs>
+
+1. sqoop import --> sqoop import --connect jdbc:mysql://localhost:3306/adewe71 --username root --password cloudera --table adewe7_tab1 -m 1 --target-dir /user/cloudera/adewe7_dir1
+
+2. certain portion of data import/ sqoop control import:
+
+sqoop import --connect jdbc:mysql://localhost:3306/adewe71 --username root --password cloudera --table adewe7_tab1 --where "location = 'delhi'"  -m 1 --target-dir /user/cloudera/adewe7_dir3
+
+3. when you have complex query:
+
+sqoop import --connect jdbc:mysql://localhost:3306/adewe71 --username root --password cloudera --query "select c.*, p.product_name from customers c inner join product_info p  on  c.id = p.customer_id where \$CONDITIONS" -m 1 --target-dir /user/cloudera/adewe7_dir5
+
+4. incremental records
+
+sqoop import --connect jdbc:mysql://localhost:3306/adewe71 --username root --password cloudera --query "select c.*, p.product_name from customers c inner join product_info p  on  c.id = p.customer_id where \$CONDITIONS" -m 1 --target-dir /user/cloudera/adewe7_dir6 --incremental append --check-column id --last-value 6
+
+details it required to fetch incremental records:
+1. incremental : 2 types- append
+2. column refernce 
+3. last value
+
+sqoop behind the scene analysis :
+lower bound(last value's reference id)  and upper bound(max of refernce id)
+lower bound - last-value - 6
+upper bound - max(id) - 8
+
+sqoop creates fresh part file and put records into it (incremental records only)
+
+No need to remember last value - remove manual intervention - sqoop incremental jobs
+
+steps:
+----------
+1. design incremental command 
+2. create a job and assign incremental command 
+3. check whether job got created 
+4. execute the job and check target directory 
+5. insert some more records in table 
+6. execute the job and check target directory 
+
+sqoop job --create adewe7incjob --import --connect jdbc:mysql://localhost:3306/adewe71 --username root --password cloudera --table adewe7_tab1 -m 1 --target /user/cloudera/adewe7dir7 --incremental append --check-column id --last-value 0
+
+check the job listed:
+sqoop job --list
+execute the job:
+sqoop job --exec job_name
+to check the details of sqoop job:
+sqoop job --show job_name 
+
+to know the ip address of the server 
+ifconfig 
+
+sqoop command with handling of delete if exist 
+sqoop import --connect jdbc:mysql://localhost:3306/adewe71 --username root --password cloudera --query "select c.*, p.product_name from customers c inner join product_info p  on  c.id = p.customer_id where \$CONDITIONS" -m 1 --delete-target-dir /user/cloudera/adewe7_dir6 
+
+5. changed or modified records
+
+to deal we need 4 extra details:
+------------------------------------
+1. incremental type: lastmodified 
+2. check-column: created date(date time)
+3. last-value: created date(value)(this value included)
+4. merge-key: id
+
+Map-reduce job:
+1. fetch the data 
+2. over-write the data 
+
+sqoop import --connect jdbc:mysql://localhost:3306/adewe71 --username root -password cloudera --table <table_name> -m 1 --delete-target-dir /user/cloudera/adewe7dir8 --incremental lastmodified --check-column date_time --last-value 2024-04-10 --merge-key id 
 

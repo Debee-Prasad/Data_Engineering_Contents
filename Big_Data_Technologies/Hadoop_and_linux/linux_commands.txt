@@ -9,11 +9,11 @@ double click (ui)                          cd -> change directory
 get out of a directory:
 back button (ui)                           cd .. or cd ../..
 create a file:
-right click -> new -> file 	           touch {name_of_file}
+right click -> new -> file 	               touch {name_of_file}
 go inside file:
 double click (ui)                          vi/vim {name_of_file}
 to write in file:
-just type			           press "I" 
+just type			                       press "I" 
 to go out of the file:
 hit the close button                       press the Esc key
 to save: 
